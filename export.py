@@ -161,7 +161,6 @@ def write_mesh(context, report_cb):
         if report_cb is not None:
             report_cb({'INFO'}, tip_("Exported: {!r}").format(filepath))
             path, filename = os.path.split(filepath)
-            report_cb({'INFO'}, str("{}").format(path))
             if print_3d.open_folder:
                 show_export_folder(context, filepath)
                 
