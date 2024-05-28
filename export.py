@@ -163,7 +163,7 @@ def write_mesh(context, report_cb):
             path, filename = os.path.split(filepath)
             report_cb({'INFO'}, str("{}").format(path))
             if print_3d.open_folder:
-                show_export_folder(context, path)
+                show_export_folder(context, filepath)
                 
         return True
 
@@ -172,12 +172,19 @@ def write_mesh(context, report_cb):
 
     return False
 
-def show_export_folder(context, path: str):
+def show_export_folder(context, filepath: str):
     import subprocess
     import os
+    
     print_3d = context.scene.print_3d
     if print_3d.open_folder:
         if os.name == 'nt':
-            subprocess.Popen(f'explorer "{path}"')
+            subprocess.Popen(r'explorer /select,"{}"'.format(os.path.normpath(filepath)))
         elif os.name == 'posix':
-            subprocess.Popen(['open', path])
+            if os.uname().sysname == "Darwin":
+                subprocess.Popen(['open', '-R', filepath])
+            else:
+                path, filename = os.path.split(filepath)
+                subprocess.Popen(['open', path])
+
+    
